@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Editora";
+}
+
+<h2>Editora</h2>
+
+<div class="col-sm-6 col-xs-12">
+
+    <table id="jqGrid"></table>
+    <div id="jqControls"></div>
+</div>
+
+<script>
+
+    $(function () {
+        $("#jqGrid").jqGrid({
+            url: "/Home/GetEditoras",
+            datatype: 'json',
+            mtype: 'Get',
+            colNames: ['Login', 'Nome', ''],
+            colModel: [
+                { key: true, name: 'Login', index: 'Login', editable: true, editoptions: { size: 25, readonly: true } },
+                { key: false, name: 'Nome', index: 'Nome', editable: true, editoptions: { size: 25 } },
+                { key: false, name: 'Senha', index: 'Senha', hidden: true, editable: true, editoptions: { size: 25, hide: "hide", placeholder: "Senha" }, editrules: { edithidden: true }, sortable: false }
+            ],
+            pager: jQuery('#jqControls'),
+            rowNum: 100,
+            rowList: [100, 200, 300, 400],
+            viewrecords: true,
+            caption: 'Usuários',
+            emptyrecords: 'Vazio',
+            jsonReader: {
+                root: "rows",
+                page: "page",
+                total: "total",
+                records: "records",
+                repeatitems: false,
+                Id: "0"
+            },
+            height: '100%',
+            autowidth: true,
+            multiselect: false
+        }).navGrid('#jqControls', { edit: true, add: true, del: true, search: false, refresh: true },
+            {
+                // edit options
+                zIndex: 100,
+                url: '/Usuario/Edit',
+                closeOnEscape: true,
+                closeAfterEdit: true,
+                recreateForm: true,
+                beforeShowForm: function ($form) {
+                    $form.find(".FormElement[hide]")
+                        .hide();
+                },
+                afterComplete: function (response) {
+                    if (response.responseText) {
+                        alert(response.responseText);
+                    }
+                }
+            },
+            {
+                // add options
+                zIndex: 100,
+                url: "/Usuario/Create",
+                closeOnEscape: true,
+                closeAfterAdd: true,
+                beforeShowForm: function ($form) {
+                    $form.find(".FormElement[readonly]")
+                        .prop("readonly", false);
+                    $form.find(".FormElement[hide]")
+                        .show();
+                },
+                afterComplete: function (response) {
+                    if (response.responseText) {
+                        alert(response.responseText);
+                    }
+                }
+            },
+            {
+                // delete options
+                zIndex: 100,
+                url: "/Usuario/Delete",
+                closeOnEscape: true,
+                closeAfterDelete: true,
+                recreateForm: true,
+                width: 350,
+                msg: "Tem certeza que quer apagar o Usuário?",
+                afterComplete: function (response) {
+                    if (response.responseText) {
+                        alert(response.responseText);
+                    }
+                }
+            });
+
+        /*Hack tamanho grid*/
+        $("#jqGrid").closest('.ui-jqgrid-bdiv').width($("#jqGrid").closest('.ui-jqgrid-bdiv').width() + 1);
+        $("#jqGrid").closest('.ui-widget-content').width($("#jqGrid").closest('.ui-widget-content').width() + 2);
+
+    });
+
+</script>
+

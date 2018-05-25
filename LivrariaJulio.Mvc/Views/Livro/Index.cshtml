@@ -1,0 +1,129 @@
+﻿<div class="col-sm-9 col-xs-12">
+    <h2>Cadastro de Livros</h2>
+    <table id="jqGrid"></table>
+    <div id="jqControls"></div>
+    <br />
+    <p>
+        <span>
+            Obs: Para realizar os cadastros dos livros é necessário antes cadastrar os Autores e as Editoras.
+        </span>
+    </p>
+</div>
+
+<script>
+
+    $(function () {
+        var autores = {};
+        var editoras = {};
+        carregaAutores();
+        
+        function carregaGrade() {
+            $("#jqGrid").jqGrid({
+                url: "/Livro/GetLivros",
+                datatype: 'json',
+                mtype: 'Get',
+                colNames: ['LivroID', 'Titulo', 'Autor', 'Editora'],
+                colModel: [
+                    { key: true, name: 'LivroID', index: 'LivroID', hidden: true, editable: true, editoptions: { size: 25, readonly: true } },
+                    { name: 'Titulo', index: 'Titulo', editable: true, editoptions: { size: 25 } },
+                    { name: 'Autor.Nome', index: 'Autor.Nome', editable: true, edittype: 'select', editoptions: { value: autores/*, disabled: "disabled"*/ }, sortable: false },
+                    { name: 'Editora.Nome', index: 'Editora.Nome', editable: true, edittype: 'select', editoptions: { value: editoras/*, disabled: "disabled"*/ }, sortable: false }
+                ],
+                pager: jQuery('#jqControls'),
+                rowNum: 100,
+                rowList: [100, 200, 300, 400],
+                viewrecords: true,
+                caption: 'Livros',
+                emptyrecords: 'Vazio',
+                jsonReader: {
+                    root: "rows",
+                    page: "page",
+                    total: "total",
+                    records: "records",
+                    repeatitems: false,
+                    Id: "0"
+                },
+                height: '100%',
+                autowidth: true,
+                multiselect: false
+            }).navGrid('#jqControls', { edit: true, add: true, del: true, search: false, refresh: true },
+            {
+                zIndex: 100,
+                width: 450,
+                url: '/Livro/EditLivros',
+                closeOnEscape: true,
+                closeAfterEdit: true,
+                recreateForm: true,
+                beforeShowForm: function ($form) {
+                    $form.find(".FormElement[disabled]")
+                        .prop("disabled", true);
+                },
+                afterComplete: function (response) {
+                    if (response.responseText) {
+                        alert(response.responseText);
+                    }
+                }
+            },
+            {
+                zIndex: 100,
+                width: 450,
+                url: "/Livro/AddLivros",
+                closeOnEscape: true,
+                closeAfterAdd: true,
+                recreateForm: true,
+                beforeShowForm: function ($form) {
+                    $form.find(".FormElement[readonly]")
+                        .prop("readonly", false);
+                    $form.find(".FormElement[disabled]")
+                        .prop("disabled", false);
+                },
+                afterComplete: function (response) {
+                    if (response.responseText) {
+                        alert(response.responseText);
+                    }
+                }
+            },
+            {
+                zIndex: 100,
+                url: "/Livro/DeleteLivros",
+                closeOnEscape: true,
+                closeAfterDelete: true,
+                recreateForm: true,
+                width: 350,
+                msg: "Tem certeza que quer apagar o Empreendimento?",
+                afterComplete: function (response) {
+                    if (response.responseText) {
+                        alert(response.responseText);
+                    }
+                }
+            });
+
+            /*Hack tamanho grid*/
+            $("#jqGrid").closest('.ui-jqgrid-bdiv').width($("#jqGrid").closest('.ui-jqgrid-bdiv').width() + 1);
+            $("#jqGrid").closest('.ui-widget-content').width($("#jqGrid").closest('.ui-widget-content').width() + 2);
+
+        }
+
+        function carregaAutores() {
+            $.getJSON("/Autor/Autores", function (result) {
+                autores[0] = "Selecione";
+                for (var i = 0; i < result.length; i++) {
+                    autores[result[i].AutorID] = JSON.stringify(result[i].Nome).replace("\"", "").replace("\"", "");
+                }
+                carregaEditoras();
+            });
+        }
+
+        function carregaEditoras() {
+            $.getJSON("/Editora/Editoras", function (result) {
+                editoras[0] = "Selecione";
+                for (var i = 0; i < result.length; i++) {
+                    editoras[result[i].EditoraID] = JSON.stringify(result[i].Nome).replace("\"", "").replace("\"", ""); 
+                }
+                carregaGrade();
+            });
+        }
+
+    });
+
+</script>

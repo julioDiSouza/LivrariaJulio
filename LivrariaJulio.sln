@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivrariaJulio.Mvc", "LivrariaJulio.Mvc\LivrariaJulio.Mvc.csproj", "{8909EF37-1F3A-4F36-BBAF-7A3042D4EC34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivrariaJulio.WebApi", "LivrariaJulio.WebApi\LivrariaJulio.WebApi.csproj", "{50FB1BD0-06BF-443D-86BE-9A32B900B778}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8909EF37-1F3A-4F36-BBAF-7A3042D4EC34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8909EF37-1F3A-4F36-BBAF-7A3042D4EC34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8909EF37-1F3A-4F36-BBAF-7A3042D4EC34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8909EF37-1F3A-4F36-BBAF-7A3042D4EC34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50FB1BD0-06BF-443D-86BE-9A32B900B778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50FB1BD0-06BF-443D-86BE-9A32B900B778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50FB1BD0-06BF-443D-86BE-9A32B900B778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50FB1BD0-06BF-443D-86BE-9A32B900B778}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E65C8D6-F2B9-4FAE-88EA-00E7F39EAF70}
+	EndGlobalSection
+EndGlobal
